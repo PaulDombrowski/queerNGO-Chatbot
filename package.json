@@ -1,0 +1,28 @@
+{
+  "name": "ngo-chatbot",
+  "version": "1.0.0",
+  "main": "next.config.mjs",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Ein schlanker Chatbot-Server für eine NGO (Antidiskriminierungs- und psychosoziale Beratung) auf Basis der OpenAI API.",
+  "dependencies": {
+    "next": "^14.2.33",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.22",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.33",
+    "typescript": "^5.4.0"
+  }
+}
