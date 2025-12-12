@@ -1,6 +1,6 @@
 :root {
-  --bg: radial-gradient(circle at 15% 20%, rgba(255, 136, 206, 0.8), transparent 38%),
-        radial-gradient(circle at 78% 12%, rgba(96, 146, 255, 0.65), transparent 40%),
+  --bg: radial-gradient(circle at 15% 20%, rgba(255, 136, 206, 0.55), transparent 38%),
+        radial-gradient(circle at 78% 12%, rgba(96, 146, 255, 0.5), transparent 40%),
         linear-gradient(180deg, #f0e7ff 0%, #fbf4ff 50%, #e8f1ff 100%);
   --panel: #ffffff;
   --muted: #6f7690;
@@ -26,6 +26,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background: var(--bg);
+  background-size: 200% 200%;
+  animation: bgShift 24s ease-in-out infinite;
   color: var(--text);
   display: flex;
   align-items: center;
@@ -339,6 +341,12 @@ button, input, textarea {
   100% { transform: rotate(360deg); }
 }
 
+@keyframes bgShift {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
 .form-card {
   display: grid;
   gap: 12px;
@@ -348,6 +356,23 @@ button, input, textarea {
   background: #f8f9ff;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
   margin-top: 8px;
+}
+
+.pad-actions .primary,
+.pad-actions .secondary {
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+}
+
+.pad-actions .primary:hover,
+.pad-actions .secondary:hover {
+  background: #e3e8ff;
+  transform: translateY(-1px);
 }
 
 label {
@@ -470,6 +495,57 @@ textarea:focus-visible {
   min-height: 80px;
   background: #f7f8ff;
   white-space: pre-wrap;
+}
+
+.pad-intro {
+  margin-bottom: 10px;
+}
+
+.accordion details {
+  background: #f8f9ff;
+  border: 1px solid #e5e8f0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03);
+}
+
+.accordion summary {
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--text);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion summary::after {
+  content: "▾";
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: auto;
+  transition: transform 0.15s ease;
+}
+
+.accordion details[open] summary::after {
+  transform: rotate(-180deg);
+}
+
+.accordion .pad-text {
+  margin: 6px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.accordion .pad-list {
+  margin: 6px 0 10px 14px;
+  color: var(--text);
+  padding-left: 12px;
 }
 
 .pad-actions {

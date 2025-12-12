@@ -344,55 +344,120 @@ export default function Home() {
       </section>
 
       <section className="workshop-pad" aria-label="Workshop Notizpad" ref={padRef}>
-        <h2>Workshop-Notizen</h2>
-        <p className="pad-hint">Kurze Stichpunkte zu den Fragen festhalten. Optional als Screenshot sichern.</p>
-        <div className="pad-grid">
-          <div className="pad-card">
-            <h3>1) Was lief gut?</h3>
-            <textarea
-              placeholder="Stichpunkte..."
-              value={padNotes.good}
-              onChange={(e) => setPadNotes((p) => ({ ...p, good: e.target.value }))}
-              onKeyDown={(e) => handlePadEnter(e, "good")}
-            />
-          </div>
-          <div className="pad-card">
-            <h3>2) Herausforderungen?</h3>
-            <textarea
-              placeholder="Stichpunkte..."
-              value={padNotes.challenges}
-              onChange={(e) => setPadNotes((p) => ({ ...p, challenges: e.target.value }))}
-              onKeyDown={(e) => handlePadEnter(e, "challenges")}
-            />
-          </div>
-          <div className="pad-card">
-            <h3>3) Ideen fürs Angebot?</h3>
-            <textarea
-              placeholder="Stichpunkte..."
-              value={padNotes.ideas}
-              onChange={(e) => setPadNotes((p) => ({ ...p, ideas: e.target.value }))}
-              onKeyDown={(e) => handlePadEnter(e, "ideas")}
-            />
-          </div>
-          <div className="pad-card">
-            <h3>4) Safety & Barrierearmut</h3>
-            <textarea
-              placeholder="Stichpunkte..."
-              value={padNotes.safety}
-              onChange={(e) => setPadNotes((p) => ({ ...p, safety: e.target.value }))}
-              onKeyDown={(e) => handlePadEnter(e, "safety")}
-            />
-          </div>
-          <div className="pad-card">
-            <h3>5) Offene Fragen</h3>
-            <textarea
-              placeholder="Stichpunkte..."
-              value={padNotes.questions}
-              onChange={(e) => setPadNotes((p) => ({ ...p, questions: e.target.value }))}
-              onKeyDown={(e) => handlePadEnter(e, "questions")}
-            />
-          </div>
+        <h2>Workshop-Aufgaben</h2>
+        <p className="pad-hint">Mögliche Fragen für den Workshop – du kannst deine Notizen festhalten und als TXT oder Screenshot sichern.</p>
+        <div className="pad-intro">
+          <p className="pad-text">
+            Der soziale Träger QueerHafen überlegt, auf der Website einen Chatbot zu integrieren. Dieser soll:
+          </p>
+          <ul className="pad-list">
+            <li>ein niedrigschwelliger Erstkontakt für ratsuchende Personen sein</li>
+            <li>erste Entlastung und Orientierung bieten</li>
+            <li>Ratsuchende gezielt zu den passenden Angeboten lenken</li>
+          </ul>
+          <p className="pad-text">Der Chatbot ersetzt keine Beratung, sondern unterstützt den Einstieg.</p>
         </div>
+        <div className="accordion">
+          <details>
+            <summary>Teil 1: Perspektivwechsel</summary>
+            <p className="pad-text">Legt eure Rolle als Berater*in ab. Versetzt euch in eine ratsuchende Person.</p>
+            <ul className="pad-list">
+              <li>Ihr kommt mit einem eigenen Anliegen auf die Website.</li>
+              <li>Ihr seid vielleicht unsicher, gestresst oder erschöpft.</li>
+              <li>Probiert den Chat mit verschiedenen Anliegen aus.</li>
+              <li>Nutzt ihn so, wie es sich für euch richtig anfühlt.</li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>Teil 2: Kurze Fragen</summary>
+            <div className="pad-card">
+              <h3>Wie hast du dich im Chat gefühlt?</h3>
+              <textarea
+                placeholder="Stichpunkte..."
+                value={padNotes.good}
+                onChange={(e) => setPadNotes((p) => ({ ...p, good: e.target.value }))}
+                onKeyDown={(e) => handlePadEnter(e, "good")}
+              />
+            </div>
+            <div className="pad-card">
+              <h3>Was hat dir gutgetan oder entlastet?</h3>
+              <textarea
+                placeholder="Stichpunkte..."
+                value={padNotes.challenges}
+                onChange={(e) => setPadNotes((p) => ({ ...p, challenges: e.target.value }))}
+                onKeyDown={(e) => handlePadEnter(e, "challenges")}
+              />
+            </div>
+            <div className="pad-card">
+              <h3>Was hat dich gestoppt oder irritiert?</h3>
+              <textarea
+                placeholder="Stichpunkte..."
+                value={padNotes.ideas}
+                onChange={(e) => setPadNotes((p) => ({ ...p, ideas: e.target.value }))}
+                onKeyDown={(e) => handlePadEnter(e, "ideas")}
+              />
+            </div>
+            <div className="pad-card">
+              <h3>Wo hast du dich ernst genommen gefühlt?</h3>
+              <textarea
+                placeholder="Stichpunkte..."
+                value={padNotes.safety}
+                onChange={(e) => setPadNotes((p) => ({ ...p, safety: e.target.value }))}
+                onKeyDown={(e) => handlePadEnter(e, "safety")}
+              />
+            </div>
+            <div className="pad-card">
+              <h3>Wo eher nicht?</h3>
+              <textarea
+                placeholder="Stichpunkte..."
+                value={padNotes.questions}
+                onChange={(e) => setPadNotes((p) => ({ ...p, questions: e.target.value }))}
+                onKeyDown={(e) => handlePadEnter(e, "questions")}
+              />
+            </div>
+          </details>
+
+          <details>
+            <summary>Teil 3: Übertragung in die Praxis</summary>
+            <ul className="pad-list">
+              <li>Könnt ihr euch so einen Chatbot für eure Strukturen vorstellen?</li>
+              <li>Warum ja – oder warum nicht?</li>
+              <li>Was könnte so ein Chatbot sinnvoll übernehmen?</li>
+              <li>Wo seht ihr klare Grenzen?</li>
+            </ul>
+            <div className="pad-card">
+              <h3>Stichpunkte</h3>
+              <textarea
+                placeholder="Bulletpoints..."
+                onKeyDown={(e) => handlePadEnter(e, "ideas")}
+                value={padNotes.ideas}
+                onChange={(e) => setPadNotes((p) => ({ ...p, ideas: e.target.value }))}
+              />
+            </div>
+          </details>
+
+          <details>
+            <summary>Teil 4: Offener Austausch zu KI</summary>
+            <ul className="pad-list">
+              <li>Wo nutzt ihr KI in eurer Arbeit heute schon?</li>
+              <li>Wofür ganz konkret?</li>
+              <li>Gibt es Bereiche, in denen ihr KI bewusst nicht nutzt?</li>
+              <li>Gibt es bei euch Regeln oder Absprachen zum KI-Einsatz?</li>
+              <li>Gerne auch Praxisbeispiele (z.B. über Zoom).</li>
+            </ul>
+            <div className="pad-card">
+              <h3>Stichpunkte</h3>
+              <textarea
+                placeholder="Bulletpoints..."
+                onKeyDown={(e) => handlePadEnter(e, "safety")}
+                value={padNotes.safety}
+                onChange={(e) => setPadNotes((p) => ({ ...p, safety: e.target.value }))}
+              />
+            </div>
+          </details>
+        </div>
+
         <div className="pad-actions">
           <button className="secondary" type="button" onClick={handleCopyNotes}>
             In Zwischenablage kopieren
