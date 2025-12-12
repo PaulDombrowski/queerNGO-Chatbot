@@ -164,8 +164,8 @@ const hasLoadedRef = useRef(false);
 
       const [data] = await Promise.all([res.json(), wait(800)]); // min. Tippdauer
       const reply = data.reply || "Entschuldige, ich habe gerade keine Antwort.";
-      setMessages((prev) => {
-        const next = [...prev, { role: "assistant", content: reply, ts: Date.now() }];
+      setMessages((prev: Message[]) => {
+        const next: Message[] = [...prev, { role: "assistant", content: reply, ts: Date.now() }];
         const lastUserIndex = [...next].reverse().findIndex((m) => m.role === "user");
         if (lastUserIndex !== -1) {
           setLastReadUserIndex(next.length - 1 - lastUserIndex);
