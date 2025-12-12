@@ -594,6 +594,27 @@ textarea:focus-visible {
   justify-content: flex-end;
 }
 
+.ghost-btn {
+  background: #eef2ff;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.1s ease, transform 0.08s ease, box-shadow 0.1s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+}
+
+.ghost-btn:hover {
+  background: #e3e8ff;
+  transform: translateY(-1px);
+}
+
+.ghost-btn:active {
+  transform: translateY(0px) scale(0.99);
+}
+
 .footer-toggles {
   display: flex;
   flex-direction: column;

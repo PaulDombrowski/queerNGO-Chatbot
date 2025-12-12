@@ -11,15 +11,18 @@ type Message = {
 
 export default function Home() {
   const appName = process.env.NEXT_PUBLIC_APP_NAME || "QueerHafen Chat";
+  const initialAssistantMessage =
+    "Schön, dass du da bist 💜\nIch bin Alex, virtuelle*r Mitarbeiter*in bei QueerHafen. Ich kann dir erste Orientierung geben, dir ein passendes Angebot vorschlagen oder einfach da sein, wenn du reden möchtest.\n\nWie darf ich dich nennen?\n(Wenn du möchtest, nimm gern einen anderen Namen.)\n\n[Buttons]:\n- Ich brauche einfach jemanden zum Reden\n- Stress in Beziehung oder Freundschaften\n- Schlechte Stimmung / Überforderung\n- Diskriminierung oder Gewalt erlebt\n- Probleme mit Geld, Amt, Jobcenter\n- Wohn- oder Alltagssorgen\n- Fragen zu Identität / Coming-out\n- Sind meine Daten sicher?\n- Etwas anderes";
+  const getInitialMessages = (): Message[] => [
+    {
+      role: "assistant",
+      content: initialAssistantMessage,
+      ts: Date.now(),
+    },
+  ];
+
   const [input, setInput] = useState("");
-const [messages, setMessages] = useState<Message[]>([
-  {
-    role: "assistant",
-    content:
-      "Schön, dass du da bist 💜\nIch bin Alex, virtuelle*r Mitarbeiter*in bei QueerHafen. Ich kann dir erste Orientierung geben, dir ein passendes Angebot vorschlagen oder einfach da sein, wenn du reden möchtest.\n\nWie darf ich dich nennen?\n(Wenn du möchtest, nimm gern einen anderen Namen.)\n\n[Buttons]:\n- Ich brauche einfach jemanden zum Reden\n- Stress in Beziehung oder Freundschaften\n- Schlechte Stimmung / Überforderung\n- Diskriminierung oder Gewalt erlebt\n- Probleme mit Geld, Amt, Jobcenter\n- Wohn- oder Alltagssorgen\n- Fragen zu Identität / Coming-out\n- Sind meine Daten sicher?\n- Etwas anderes",
-    ts: Date.now(),
-  },
-]);
+  const [messages, setMessages] = useState<Message[]>(getInitialMessages);
   const prevLenRef = useRef(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -183,6 +186,17 @@ const hasLoadedRef = useRef(false);
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     handleSend();
+  };
+
+  const handleClearChat = () => {
+    const fresh = getInitialMessages();
+    setMessages(fresh);
+    setLastReadUserIndex(null);
+    try {
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(fresh));
+    } catch {
+      // ignore
+    }
   };
 
   const handleCapture = async () => {
@@ -350,6 +364,9 @@ const hasLoadedRef = useRef(false);
               />
             </div>
             <div className="actions">
+              <button type="button" className="ghost-btn" onClick={handleClearChat} disabled={loading}>
+                Chat zurücksetzen
+              </button>
               <button className="primary" type="submit" disabled={loading} aria-busy={loading}>
                 {loading ? "Antwort wird verfasst..." : "Senden"}
               </button>
