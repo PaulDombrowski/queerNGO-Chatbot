@@ -13,6 +13,7 @@
   "license": "ISC",
   "description": "Ein schlanker Chatbot-Server für eine NGO (Antidiskriminierungs- und psychosoziale Beratung) auf Basis der OpenAI API.",
   "dependencies": {
+    "html2canvas": "^1.4.1",
     "next": "^14.2.33",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

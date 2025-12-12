@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "NGO Support Chat",
-  description: "Barrierearmer Beratungs-Chat für eine NGO",
+  title: "QueerHafen",
+  description: "Barrierearmer Beratungs-Chat für QueerHafen",
 };
 
 export default function RootLayout({
