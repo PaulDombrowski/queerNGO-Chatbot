@@ -12,32 +12,35 @@ type Message = {
 export default function Home() {
   const appName = process.env.NEXT_PUBLIC_APP_NAME || "QueerHafen Chat";
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content:
-        "Schön, dass du da bist 💜\nIch bin Alex, virtuelle*r Mitarbeiter*in bei QueerHafen. Ich kann dir erste Orientierung geben, dir ein passendes Angebot vorschlagen oder einfach da sein, wenn du reden möchtest.\n\nWie darf ich dich nennen?\n(Wenn du möchtest, nimm gern einen anderen Namen.)\n\n[Buttons]:\n- Ich brauche einfach jemanden zum Reden\n- Stress in Beziehung oder Freundschaften\n- Schlechte Stimmung / Überforderung\n- Diskriminierung oder Gewalt erlebt\n- Probleme mit Geld, Amt, Jobcenter\n- Wohn- oder Alltagssorgen\n- Fragen zu Identität / Coming-out\n- Sind meine Daten sicher?\n- Etwas anderes",
-      ts: Date.now(),
-    },
-  ]);
+const [messages, setMessages] = useState<Message[]>([
+  {
+    role: "assistant",
+    content:
+      "Schön, dass du da bist 💜\nIch bin Alex, virtuelle*r Mitarbeiter*in bei QueerHafen. Ich kann dir erste Orientierung geben, dir ein passendes Angebot vorschlagen oder einfach da sein, wenn du reden möchtest.\n\nWie darf ich dich nennen?\n(Wenn du möchtest, nimm gern einen anderen Namen.)\n\n[Buttons]:\n- Ich brauche einfach jemanden zum Reden\n- Stress in Beziehung oder Freundschaften\n- Schlechte Stimmung / Überforderung\n- Diskriminierung oder Gewalt erlebt\n- Probleme mit Geld, Amt, Jobcenter\n- Wohn- oder Alltagssorgen\n- Fragen zu Identität / Coming-out\n- Sind meine Daten sicher?\n- Etwas anderes",
+    ts: Date.now(),
+  },
+]);
   const prevLenRef = useRef(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [simpleLanguage, setSimpleLanguage] = useState(false);
   const [language, setLanguage] = useState<"Deutsch" | "English" | "Türkçe" | "Español">("Deutsch");
   const [lastReadUserIndex, setLastReadUserIndex] = useState<number | null>(null);
-  const [soundOn, setSoundOn] = useState(true);
-  const [padNotes, setPadNotes] = useState({
-    good: "",
-    challenges: "",
-    ideas: "",
+const [soundOn, setSoundOn] = useState(true);
+const [padNotes, setPadNotes] = useState({
+  good: "",
+  challenges: "",
+  ideas: "",
     safety: "",
     questions: "",
   });
-  const bubblesRef = useRef<HTMLDivElement>(null);
-  const [hydrated, setHydrated] = useState(false);
-  const padRef = useRef<HTMLDivElement>(null);
-  const [captureLoading, setCaptureLoading] = useState(false);
+const bubblesRef = useRef<HTMLDivElement>(null);
+const [hydrated, setHydrated] = useState(false);
+const padRef = useRef<HTMLDivElement>(null);
+const [captureLoading, setCaptureLoading] = useState(false);
+const CHAT_STORAGE_KEY = "qh-chat-messages";
+const PAD_STORAGE_KEY = "qh-pad-notes";
+const hasLoadedRef = useRef(false);
 
   useEffect(() => {
     bubblesRef.current?.scrollTo({ top: bubblesRef.current.scrollHeight, behavior: "smooth" });
@@ -45,6 +48,26 @@ export default function Home() {
 
   useEffect(() => {
     setHydrated(true);
+    // Load stored state once on mount
+    if (!hasLoadedRef.current) {
+      try {
+        const storedMessages = localStorage.getItem(CHAT_STORAGE_KEY);
+        if (storedMessages) {
+          const parsed = JSON.parse(storedMessages) as Message[];
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setMessages(parsed);
+          }
+        }
+        const storedPad = localStorage.getItem(PAD_STORAGE_KEY);
+        if (storedPad) {
+          const parsedPad = JSON.parse(storedPad);
+          setPadNotes((p) => ({ ...p, ...parsedPad }));
+        }
+      } catch {
+        // ignore storage errors
+      }
+      hasLoadedRef.current = true;
+    }
   }, []);
 
   const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -77,6 +100,24 @@ export default function Home() {
     }
     prevLenRef.current = messages.length;
   }, [messages, playTone]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
+    } catch {
+      // ignore
+    }
+  }, [messages, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(PAD_STORAGE_KEY, JSON.stringify(padNotes));
+    } catch {
+      // ignore
+    }
+  }, [padNotes, hydrated]);
 
   const extractButtons = (text: string) => {
     const match = text.match(/\[Buttons\]:([\s\S]*)/i);
